@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { beforeDestroy } = require('../../config/config');
 const { Comment } = require('../../models/');
 const withAuth = require('../../utils/auth');
 
@@ -7,8 +8,9 @@ router.post('/', withAuth, async (req, res) => {
   try {
     const newComment = await Comment.create({
       // TODO: COMMENT BODY IN REQUEST USING SPREAD
-
       // TODO: SET USERID userId TO SESSION LOGGEDIN USERID
+      ...body,
+      userId: req.params.id
     });
     res.json(newComment);
   } catch (err) {
